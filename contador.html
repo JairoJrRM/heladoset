@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contador de Dinero</title>
+    <meta name="theme-color" content="#667eea">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Overlay de celebración -->
+    <div class="celebration-overlay" id="celebrationOverlay">
+        <div class="celebration-message" id="celebrationMessage"></div>
+        <canvas id="confettiCanvas"></canvas>
+        <div class="money-animation" id="moneyAnimation"></div>
+    </div>
+
+    <div class="container">
+        <!-- Header con gráfico y total -->
+        <div class="header-top">
+            <button class="btn-back-menu" onclick="window.location.href='menu.html'">← Menú</button>
+        </div>
+        
+        <div class="header">
+            <div class="chart-container">
+                <canvas id="pieChart"></canvas>
+            </div>
+            <div class="total-container">
+                <div class="total-label">Total General</div>
+                <div class="total-amount">S/ <span id="totalAmount">0.00</span></div>
+            </div>
+        </div>
+
+        <!-- Switch de categorías con animación de burbuja -->
+        <div class="category-switch">
+            <div class="bubble-indicator"></div>
+            <button class="category-btn active" data-category="monedas">
+                <span class="icon">🪙</span>
+            </button>
+            <button class="category-btn" data-category="billetes">
+                <span class="icon">💵</span>
+            </button>
+            <button class="category-btn" data-category="yape">
+                <span class="icon">📱</span>
+            </button>
+        </div>
+
+        <!-- Contenedor de categorías -->
+        <div class="content">
+            <!-- Monedas -->
+            <div class="category-content active" id="monedas">
+                <h2>Monedas</h2>
+                <div class="items-horizontal">
+                    <div class="item-compact" data-value="0.10" data-title="10 céntimos">
+                        <div class="item-header">
+                            <span class="item-title">10 céntimos</span>
+                            <span class="item-saved-amount">S/ 0.00</span>
+                        </div>
+                        <div class="item-compact-controls">
+                            <button class="btn-mini minus">-</button>
+                            <div class="item-change-display"></div>
+                            <button class="btn-mini plus">+</button>
+                        </div>
+                    </div>
+                    <div class="item-compact" data-value="0.20" data-title="20 céntimos">
+                        <div class="item-header">
+                            <span class="item-title">20 céntimos</span>
+                            <span class="item-saved-amount">S/ 0.00</span>
+                        </div>
+                        <div class="item-compact-controls">
+                            <button class="btn-mini minus">-</button>
+                            <div class="item-change-display"></div>
+                            <button class="btn-mini plus">+</button>
+                        </div>
+                    </div>
+                    <div class="item-compact" data-value="0.50" data-title="50 céntimos">
+                        <div class="item-header">
+                            <span class="item-title">50 céntimos</span>
+                            <span class="item-saved-amount">S/ 0.00</span>
+                        </div>
+                        <div class="item-compact-controls">
+                            <button class="btn-mini minus">-</button>
+                            <div class="item-change-display"></div>
+                            <button class="btn-mini plus">+</button>
+                        </div>
+                    </div>
+                    <div class="item-compact" data-value="1" data-title="1 sol">
+                        <div class="item-header">
+                            <span class="item-title">1 sol</span>
+                            <span class="item-saved-amount">S/ 0.00</span>
+                        </div>
+                        <div class="item-compact-controls">
+                            <button class="btn-mini minus">-</button>
+                            <div class="item-change-display"></div>
+                            <button class="btn-mini plus">+</button>
+                        </div>
+                    </div>
+                    <div class="item-compact" data-value="2" data-title="2 soles">
+                        <div class="item-header">
+                            <span class="item-title">2 soles</span>
+                            <span class="item-saved-amount">S/ 0.00</span>
+                        </div>
+                        <div class="item-compact-controls">
+                            <button class="btn-mini minus">-</button>
+                            <div class="item-change-display"></div>
+                            <button class="btn-mini plus">+</button>
+                        </div>
+                    </div>
+                    <div class="item-compact" data-value="5" data-title="5 soles">
+                        <div class="item-header">
+                            <span class="item-title">5 soles</span>
+                            <span class="item-saved-amount">S/ 0.00</span>
+                        </div>
+                        <div class="item-compact-controls">
+                            <button class="btn-mini minus">-</button>
+                            <div class="item-change-display"></div>
+                            <button class="btn-mini plus">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Billetes -->
+            <div class="category-content" id="billetes">
+                <h2>Billetes</h2>
+                <div class="items-horizontal">
+                    <div class="item-compact" data-value="10" data-title="10 soles">
+                        <div class="item-header">
+                            <span class="item-title">10 soles</span>
+                            <span class="item-saved-amount">S/ 0.00</span>
+                        </div>
+                        <div class="item-compact-controls">
+                            <button class="btn-mini minus">-</button>
+                            <div class="item-change-display"></div>
+                            <button class="btn-mini plus">+</button>
+                        </div>
+                    </div>
+                    <div class="item-compact" data-value="20" data-title="20 soles">
+                        <div class="item-header">
+                            <span class="item-title">20 soles</span>
+                            <span class="item-saved-amount">S/ 0.00</span>
+                        </div>
+                        <div class="item-compact-controls">
+                            <button class="btn-mini minus">-</button>
+                            <div class="item-change-display"></div>
+                            <button class="btn-mini plus">+</button>
+                        </div>
+                    </div>
+                    <div class="item-compact" data-value="50" data-title="50 soles">
+                        <div class="item-header">
+                            <span class="item-title">50 soles</span>
+                            <span class="item-saved-amount">S/ 0.00</span>
+                        </div>
+                        <div class="item-compact-controls">
+                            <button class="btn-mini minus">-</button>
+                            <div class="item-change-display"></div>
+                            <button class="btn-mini plus">+</button>
+                        </div>
+                    </div>
+                    <div class="item-compact" data-value="100" data-title="100 soles">
+                        <div class="item-header">
+                            <span class="item-title">100 soles</span>
+                            <span class="item-saved-amount">S/ 0.00</span>
+                        </div>
+                        <div class="item-compact-controls">
+                            <button class="btn-mini minus">-</button>
+                            <div class="item-change-display"></div>
+                            <button class="btn-mini plus">+</button>
+                        </div>
+                    </div>
+                    <div class="item-compact" data-value="200" data-title="200 soles">
+                        <div class="item-header">
+                            <span class="item-title">200 soles</span>
+                            <span class="item-saved-amount">S/ 0.00</span>
+                        </div>
+                        <div class="item-compact-controls">
+                            <button class="btn-mini minus">-</button>
+                            <div class="item-change-display"></div>
+                            <button class="btn-mini plus">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Yape -->
+            <div class="category-content" id="yape">
+                <h2>Yape</h2>
+                <div class="yape-grid">
+                    <button class="yape-btn" data-value="0.10">S/ 0.10</button>
+                    <button class="yape-btn" data-value="0.50">S/ 0.50</button>
+                    <button class="yape-btn" data-value="1">S/ 1</button>
+                    <button class="yape-btn" data-value="2">S/ 2</button>
+                    <button class="yape-btn" data-value="5">S/ 5</button>
+                    <button class="yape-btn" data-value="10">S/ 10</button>
+                    <button class="yape-btn" data-value="20">S/ 20</button>
+                    <button class="yape-btn" data-value="30">S/ 30</button>
+                    <button class="yape-btn" data-value="50">S/ 50</button>
+                </div>
+                <div class="yape-total">
+                    <div class="yape-total-label">Total Yape temporal:</div>
+                    <div class="yape-total-amount">S/ <span id="yapeTempTotal">0.00</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botón guardar flotante -->
+        <button class="btn-save-float" id="btnSave" title="Guardar Cambios">
+            💾
+        </button>
+
+        <!-- Botón eliminar -->
+        <button class="btn-delete" onclick="resetAllData()">
+            🗑️ Eliminar Todo
+        </button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Sistema de navegación con botón de retroceso
+        // Agregar entrada al historial cuando carga la página
+        window.history.pushState({ page: 'contador' }, '', '');
+
+        window.addEventListener('popstate', function(event) {
+            // Retroceder al menú
+            window.location.href = 'menu.html';
+        });
+    </script>
+</body>
+</html>

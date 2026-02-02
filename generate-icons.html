@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Generar Iconos</title>
+</head>
+<body>
+    <canvas id="canvas192" width="192" height="192" style="display:none;"></canvas>
+    <canvas id="canvas512" width="512" height="512" style="display:none;"></canvas>
+    
+    <h2>Iconos generados - Click derecho > Guardar imagen como...</h2>
+    <div>
+        <p><strong>icon-192.png</strong> (guardar con este nombre):</p>
+        <img id="img192" style="border: 1px solid #ccc;">
+    </div>
+    <div>
+        <p><strong>icon-512.png</strong> (guardar con este nombre):</p>
+        <img id="img512" style="border: 1px solid #ccc;">
+    </div>
+
+    <script>
+        // Función para dibujar el icono
+        function drawIcon(canvas, size) {
+            const ctx = canvas.getContext('2d');
+            
+            // Fondo con gradiente
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#667eea');
+            gradient.addColorStop(1, '#764ba2');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+            
+            // Emoji de helado
+            ctx.font = `${size * 0.6}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('🍦', size / 2, size / 2);
+        }
+        
+        // Generar icono 192x192
+        const canvas192 = document.getElementById('canvas192');
+        drawIcon(canvas192, 192);
+        document.getElementById('img192').src = canvas192.toDataURL('image/png');
+        
+        // Generar icono 512x512
+        const canvas512 = document.getElementById('canvas512');
+        drawIcon(canvas512, 512);
+        document.getElementById('img512').src = canvas512.toDataURL('image/png');
+    </script>
+</body>
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Helados Artesanales E.T.</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="Sistema de gestión para Helados Artesanales E.T.">
+    <meta name="theme-color" content="#667eea">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Helados E.T.">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    
+    <link rel="stylesheet" href="menu-styles.css">
+</head>
+<body>
+    <!-- Pantalla de carga MyJr. Studios -->
+    <div class="loading-screen-myjr" id="loadingScreen">
+        <div class="loading-content-myjr">
+            <h1 class="myjr-title">MyJr.</h1>
+            <h2 class="studios-title">STUDIOS</h2>
+        </div>
+        <button class="btn-saltar" id="btnSaltar">Saltar</button>
+    </div>
+
+    <div class="container" id="mainContainer">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-icons">
+                <a href="perfil.html" class="icon-btn" title="Perfil">
+                    <span class="icon">👤</span>
+                </a>
+                <a href="opciones.html" class="icon-btn" title="Opciones">
+                    <span class="icon">⚙️</span>
+                </a>
+            </div>
+            <div class="logo">🍦</div>
+            <h1 class="app-title">Helados Artesanales E.T.</h1>
+            <p class="app-subtitle">Sistema de Gestión</p>
+        </div>
+
+        <!-- Menú de opciones -->
+        <div class="menu-grid">
+            <a href="contador.html" class="menu-card">
+                <div class="menu-icon">💰</div>
+                <h2 class="menu-title">Contador de Monedas</h2>
+                <p class="menu-description">Administra y cuenta tu dinero por monedas, billetes y Yape</p>
+                <div class="menu-arrow">→</div>
+            </a>
+
+            <a href="pedidos.html" class="menu-card">
+                <div class="menu-icon">📝</div>
+                <h2 class="menu-title">Realizar Pedido</h2>
+                <p class="menu-description">Crea y gestiona pedidos de helados</p>
+                <div class="menu-arrow">→</div>
+            </a>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>© 2026 Helados Artesanales E.T.</p>
+        </div>
+    </div>
+
+    <!-- Diálogo de confirmación de salida -->
+    <div class="exit-dialog" id="exitDialog">
+        <div class="exit-dialog-content">
+            <h2 class="exit-dialog-title">¿Salir de la aplicación?</h2>
+            <p class="exit-dialog-text">¿Estás seguro que deseas salir?</p>
+            <div class="exit-dialog-buttons">
+                <button class="exit-btn exit-btn-cancel" id="btnCancelar">Cancelar</button>
+                <button class="exit-btn exit-btn-confirm" id="btnSalir">Salir</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Pantalla de carga MyJr. Studios
+        document.addEventListener('DOMContentLoaded', function() {
+            const hasLoaded = sessionStorage.getItem('menuLoaded');
+            const loadingScreen = document.getElementById('loadingScreen');
+            const mainContainer = document.getElementById('mainContainer');
+            const btnSaltar = document.getElementById('btnSaltar');
+            
+            // Ocultar contenido principal inicialmente
+            mainContainer.style.opacity = '0';
+            mainContainer.style.transform = 'scale(0.95)';
+            
+            // Función para mostrar contenido principal
+            function mostrarContenido() {
+                loadingScreen.classList.add('fade-out');
+                // Cambiar fondo a morado
+                document.body.classList.add('loaded');
+                
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                    mainContainer.style.transition = 'all 0.8s ease';
+                    mainContainer.style.opacity = '1';
+                    mainContainer.style.transform = 'scale(1)';
+                    
+                    // Animar elementos
+                    animarElementos();
+                    
+                    sessionStorage.setItem('menuLoaded', 'true');
+                }, 500);
+            }
+            
+            // Función para animar elementos
+            function animarElementos() {
+                const elementos = document.querySelectorAll('.header, .menu-card, .footer');
+                elementos.forEach((el, index) => {
+                    el.style.opacity = '0';
+                    el.style.transform = 'translateY(30px)';
+                    setTimeout(() => {
+                        el.style.transition = 'all 0.6s ease';
+                        el.style.opacity = '1';
+                        el.style.transform = 'translateY(0)';
+                    }, index * 150);
+                });
+            }
+            
+            // Botón saltar
+            btnSaltar.addEventListener('click', mostrarContenido);
+            
+            if (!hasLoaded) {
+                // Primera vez - mostrar animación completa
+                setTimeout(mostrarContenido, 3000);
+            } else {
+                // Ya se cargó antes - mostrar directamente con animación suave
+                document.body.classList.add('loaded');
+                loadingScreen.style.display = 'none';
+                
+                // Animación de entrada desde otras páginas
+                mainContainer.style.opacity = '0';
+                mainContainer.style.transform = 'scale(0.95)';
+                
+                setTimeout(() => {
+                    mainContainer.style.transition = 'all 0.5s ease';
+                    mainContainer.style.opacity = '1';
+                    mainContainer.style.transform = 'scale(1)';
+                }, 50);
+            }
+        });
+
+        // Sistema de navegación con botón de retroceso
+        let dialogoAbierto = false;
+
+        // Agregar entrada al historial cuando carga la página
+        window.history.pushState({ page: 'menu' }, '', '');
+
+        window.addEventListener('popstate', function(event) {
+            if (dialogoAbierto) {
+                // Si el diálogo está abierto, cerrarlo
+                cerrarDialogo();
+                // Mantener en la misma página
+                window.history.pushState({ page: 'menu' }, '', '');
+            } else {
+                // Mostrar diálogo de confirmación
+                mostrarDialogo();
+                // Mantener en la misma página
+                window.history.pushState({ page: 'menu' }, '', '');
+            }
+        });
+
+        function mostrarDialogo() {
+            dialogoAbierto = true;
+            document.getElementById('exitDialog').classList.add('show');
+        }
+
+        function cerrarDialogo() {
+            dialogoAbierto = false;
+            document.getElementById('exitDialog').classList.remove('show');
+        }
+
+        // Botón Cancelar
+        document.getElementById('btnCancelar').addEventListener('click', function() {
+            cerrarDialogo();
+        });
+
+        // Botón Salir
+        document.getElementById('btnSalir').addEventListener('click', function() {
+            // Limpiar historial y cerrar
+            window.history.go(-window.history.length);
+            window.close();
+            // Si no se puede cerrar, ir a about:blank
+            setTimeout(function() {
+                window.location.href = 'about:blank';
+            }, 100);
+        });
+
+        // Registrar Service Worker para PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('./service-worker.js')
+                    .then(function(registration) {
+                        console.log('Service Worker registrado con éxito:', registration.scope);
+                    })
+                    .catch(function(error) {
+                        console.log('Error al registrar Service Worker:', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>

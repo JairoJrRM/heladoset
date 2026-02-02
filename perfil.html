@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil - Helados E.T.</title>
+    <meta name="theme-color" content="#667eea">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="menu-styles.css">
+    <style>
+        .perfil-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            animation: fadeInPage 0.5s ease;
+        }
+        
+        @keyframes fadeInPage {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .btn-back {
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            backdrop-filter: blur(10px);
+            margin-bottom: 20px;
+            display: inline-block;
+            text-decoration: none;
+        }
+        
+        .btn-back:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(-5px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-back:active {
+            transform: translateX(-3px) scale(0.98);
+        }
+        
+        .perfil-card {
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            animation: slideUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .perfil-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #FF6B9D 0%, #C44569 100%);
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .perfil-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+        
+        .perfil-icon {
+            font-size: 90px;
+            margin-bottom: 20px;
+            animation: bounce 2s ease infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .perfil-title {
+            font-size: 32px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #FF6B9D 0%, #C44569 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+        
+        /* Modo Vista */
+        .perfil-vista {
+            display: none;
+        }
+        
+        .perfil-vista.active {
+            display: block;
+            animation: fadeInUp 0.6s ease;
+        }
+        
+        .perfil-dato {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8eaf0 100%);
+            border-radius: 14px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 2px solid #E0E0E0;
+        }
+        
+        .perfil-dato-label {
+            font-size: 14px;
+            color: #757575;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+        
+        .perfil-dato-valor {
+            font-size: 26px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #FF6B9D 0%, #C44569 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Modo Edición */
+        .perfil-edicion {
+            display: none;
+        }
+        
+        .perfil-edicion.active {
+            display: block;
+            animation: fadeInUp 0.6s ease;
+        }
+        
+        .form-group {
+            margin-bottom: 30px;
+            animation: fadeInUp 0.6s ease backwards;
+        }
+        
+        .form-group:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+        
+        .form-group:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            color: #212121;
+            margin-bottom: 10px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #E0E0E0;
+            border-radius: 14px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #FAFAFA;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #FF6B9D;
+            box-shadow: 0 0 0 4px rgba(255, 107, 157, 0.1);
+            background: white;
+            transform: translateY(-2px);
+        }
+        
+        .btn-modificar {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #FF6B9D 0%, #C44569 100%);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 6px 20px rgba(255, 107, 157, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-modificar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .btn-modificar:hover::before {
+            left: 100%;
+        }
+        
+        .btn-modificar:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 107, 157, 0.5);
+        }
+        
+        .btn-modificar:active {
+            transform: translateY(-1px) scale(0.98);
+        }
+        
+        .btn-guardar {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            margin-top: 20px;
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-guardar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .btn-guardar:hover::before {
+            left: 100%;
+        }
+        
+        .btn-guardar:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.5);
+        }
+        
+        .btn-guardar:active {
+            transform: translateY(-1px) scale(0.98);
+        }
+        
+        .btn-cancelar {
+            width: 100%;
+            padding: 16px;
+            background: transparent;
+            color: #FF6B9D;
+            border: 2px solid #FF6B9D;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        .btn-cancelar:hover {
+            background: rgba(255, 107, 157, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .mensaje-guardado {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            padding: 25px 50px;
+            border-radius: 20px;
+            font-size: 20px;
+            font-weight: 600;
+            box-shadow: 0 10px 40px rgba(76, 175, 80, 0.5);
+            z-index: 9999;
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        .mensaje-guardado.show {
+            transform: translate(-50%, -50%) scale(1);
+            animation: pulse 0.6s ease 0.3s;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.05); }
+        }
+    </style>
+</head>
+<body class="loaded">
+    <script>
+        // Asegurar que el fondo morado aparezca inmediatamente
+        document.body.classList.add('loaded');
+    </script>
+    <div class="perfil-container">
+        <button class="btn-back" onclick="volverConAnimacion()">← Volver</button>
+        
+        <div class="perfil-card">
+            <div class="perfil-header">
+                <div class="perfil-icon">👤</div>
+                <h1 class="perfil-title">Mi Perfil</h1>
+            </div>
+            
+            <!-- Modo Vista -->
+            <div class="perfil-vista" id="perfilVista">
+                <div class="perfil-dato">
+                    <div class="perfil-dato-label">Nombre</div>
+                    <div class="perfil-dato-valor" id="nombreVista">-</div>
+                </div>
+                
+                <div class="perfil-dato">
+                    <div class="perfil-dato-label">Edad</div>
+                    <div class="perfil-dato-valor" id="edadVista">-</div>
+                </div>
+                
+                <button class="btn-modificar" onclick="modoEdicion()">✏️ Modificar Perfil</button>
+            </div>
+            
+            <!-- Modo Edición -->
+            <div class="perfil-edicion" id="perfilEdicion">
+                <form id="perfilForm" onsubmit="guardarPerfil(event)">
+                    <div class="form-group">
+                        <label class="form-label" for="nombre">Nombre</label>
+                        <input type="text" 
+                               id="nombre" 
+                               class="form-input" 
+                               placeholder="Ingresa tu nombre"
+                               maxlength="30">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="edad">Edad</label>
+                        <input type="number" 
+                               id="edad" 
+                               class="form-input" 
+                               placeholder="Ingresa tu edad"
+                               min="1"
+                               max="120">
+                    </div>
+                    
+                    <button type="submit" class="btn-guardar">💾 Guardar Perfil</button>
+                    <button type="button" class="btn-cancelar" onclick="modoVista()">Cancelar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mensaje-guardado" id="mensajeGuardado">✅ Perfil guardado</div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            cargarPerfil();
+        });
+        
+        function volverConAnimacion() {
+            document.body.classList.add('page-exit');
+            setTimeout(() => {
+                window.location.href = 'menu.html';
+            }, 300);
+        }
+        
+        function cargarPerfil() {
+            const perfil = JSON.parse(localStorage.getItem('perfil') || '{}');
+            
+            if (perfil.nombre || perfil.edad) {
+                // Hay datos, mostrar modo vista
+                document.getElementById('nombreVista').textContent = perfil.nombre || '-';
+                document.getElementById('edadVista').textContent = perfil.edad ? `${perfil.edad} años` : '-';
+                
+                document.getElementById('perfilVista').classList.add('active');
+                document.getElementById('perfilEdicion').classList.remove('active');
+            } else {
+                // No hay datos, mostrar modo edición
+                document.getElementById('perfilEdicion').classList.add('active');
+                document.getElementById('perfilVista').classList.remove('active');
+            }
+        }
+        
+        function modoEdicion() {
+            const perfil = JSON.parse(localStorage.getItem('perfil') || '{}');
+            
+            document.getElementById('nombre').value = perfil.nombre || '';
+            document.getElementById('edad').value = perfil.edad || '';
+            
+            document.getElementById('perfilVista').classList.remove('active');
+            document.getElementById('perfilEdicion').classList.add('active');
+        }
+        
+        function modoVista() {
+            document.getElementById('perfilEdicion').classList.remove('active');
+            document.getElementById('perfilVista').classList.add('active');
+        }
+        
+        function guardarPerfil(event) {
+            event.preventDefault();
+            
+            const nombre = document.getElementById('nombre').value.trim();
+            const edad = document.getElementById('edad').value;
+            
+            const perfil = {
+                nombre: nombre,
+                edad: edad
+            };
+            
+            localStorage.setItem('perfil', JSON.stringify(perfil));
+            
+            // Actualizar vista
+            document.getElementById('nombreVista').textContent = nombre || '-';
+            document.getElementById('edadVista').textContent = edad ? `${edad} años` : '-';
+            
+            // Mostrar mensaje
+            const mensaje = document.getElementById('mensajeGuardado');
+            mensaje.classList.add('show');
+            setTimeout(() => {
+                mensaje.classList.remove('show');
+            }, 2000);
+            
+            // Volver a modo vista
+            modoVista();
+        }
+
+        // Sistema de navegación con botón de retroceso
+        // Agregar entrada al historial cuando carga la página
+        window.history.pushState({ page: 'perfil' }, '', '');
+
+        window.addEventListener('popstate', function(event) {
+            // Retroceder al menú
+            window.location.href = 'menu.html';
+        });
+    </script>
+</body>
+</html>
